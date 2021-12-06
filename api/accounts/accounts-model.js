@@ -7,12 +7,17 @@ const getAll = async () => {
     return rows
 }
 
-const getById = id => {
-  // DO YOUR MAGIC
-}
+const getById = async (id) => {
+  const result = await db("accounts").where("id", id).first();
+  return result;
+};
 
-const create = account => {
+const create = async account => {
   // DO YOUR MAGIC
+  const [accountId] = await db('accounts')
+    .insert(account)
+  const newAccount = await getById(accountId)
+  return newAccount
 }
 
 const updateById = (id, account) => {
