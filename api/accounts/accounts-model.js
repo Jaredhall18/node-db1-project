@@ -1,5 +1,10 @@
-const getAll = () => {
-  // DO YOUR MAGIC
+const db = require('./../../data/db-config')
+
+const getAll = async () => {
+  // Select * from accounts;
+  const rows = await db('accounts')
+    .select('name', 'budget')
+    return rows
 }
 
 const getById = id => {
