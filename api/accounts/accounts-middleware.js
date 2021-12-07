@@ -8,7 +8,7 @@ exports.checkAccountPayload = (req, res, next) => {
     next({ status: 400, message: "name and budget are required" });
   } else if (typeof name !== "string") {
     next({status: 400, message: 'name of account must be a string'})
-  } else if ( name.trim().length < 3 || name.trim() > 100) {
+  } else if ( name.trim().length < 3 || name.trim().length > 100) {
     next({status: 400, message: 'name of account must be between 3 and 100'})
   } else if (typeof budget !== "number") {
     next({status: 400, message: 'budget of account must be a number'})
