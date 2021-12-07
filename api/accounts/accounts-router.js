@@ -19,22 +19,32 @@ router.get('/:id', checkAccountId, (req, res, next) => {
   res.json(req.account)
 });
 
-router.post('/', checkAccountNameUnique, checkAccountPayload, (req, res, next) => {
-  Accounts.create(req.body)
-    .then((newAccount) => {
+router.post('/', checkAccountNameUnique, checkAccountPayload, async (req, res, next) => {
+  try {
+    const newAccount = await Accounts.create(req.body)
       res.status(201).json({ name: newAccount.name.trim(), budget: newAccount.budget });
-    })
-    .catch(next)
+  } catch (error) {
+    next(error)
+  }
 })
 
-router.put('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.put('/:id', checkAccountId, checkAccountPayload, async (req, res, next) => {
+ try {
+   const data = await Accounts.updateById(req.params.id, req.body);
+   res.status(200).json(data)
+ } catch (error) {
+   next(error)
+ }
 });
 
-router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', checkAccountId, async (req, res, next) => {
+  try {
+    const data = await Accounts.deleteById(req.params.id)
+    res.json(data)
+  } catch (err) {
+    next(err)
+  }
 })
-
 
 router.use((err, req, res, next) => {
   console.log("Error middleware")
